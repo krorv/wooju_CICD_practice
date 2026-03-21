@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class WoojuApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(WoojuApplication.class, args)
+        SpringApplication.run(WoojuApplication.class, args);
     }
 
 }
