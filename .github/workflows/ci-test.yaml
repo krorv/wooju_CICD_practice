@@ -1,9 +1,8 @@
 name: Spring Boot CI/CD 배포 자동화
 
-# 언제 로봇이 일할까? (master 브랜치에 코드가 푸시되거나 PR이 합쳐질 때)
 on:
   push:
-    branches: [ "master" ] # 팀원분 브랜치(jua)에서 테스트 중이라면 "jua"로 바꿔서 테스트하셔도 됩니다!
+    branches: [ "master" ] # 브랜치 이름
 
 jobs:
   build-and-deploy:
