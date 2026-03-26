@@ -1,0 +1,43 @@
+name: Spring Boot CI/CD 배포 자동화
+
+on:
+  push:
+    branches: [ "master" ] # 브랜치 이름
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest # 로봇이 일할 빈 리눅스 컴퓨터 빌리기
+
+    steps:
+      # 1. 깃허브 창고에서 최신 코드 꺼내오기
+      - name: 1. 코드 가져오기
+        uses: actions/checkout@v4
+
+      # 2. 로봇 컴퓨터에 자바 17 설치하기
+      - name: 2. 자바(JDK 17) 세팅하기
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      # 3. 스프링 부트 프로젝트 빌드해서 실행 파일(.jar) 만들기
+      - name: 3. 스프링 부트 빌드하기 (포장)
+        run: |
+          chmod +x gradlew
+          ./gradlew clean build
+
+      # 4. 방금 만든 금고 열쇠로 도커 허브 로그인하기! 🔑
+      - name: 4. 도커 허브 로그인하기
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # 5. 최상단에 있는 Dockerfile을 보고 상자를 만든 뒤, 도커 허브로 배달(Push)! 📦
+      - name: 5. 도커 이미지 빌드 및 허브로 푸시하기
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          # 이미지 이름표 붙이기: "내아이디/프로젝트이름:최신버전"
+          tags: ${{ secrets.DOCKER_USERNAME }}/wooju-cicd:latest
