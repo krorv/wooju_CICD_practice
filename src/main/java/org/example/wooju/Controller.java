@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 class Controller {
     @GetMapping("/")
     public String hello() {
-        return "Hello, CD Test v444444"; // 나중에 v2로 바꿔서 테스트할 부분입니다.
+        return "Hello, CD Test v01010101"; // 나중에 v2로 바꿔서 테스트할 부분입니다.
     }
 }
